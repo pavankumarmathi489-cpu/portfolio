@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {render} from './render.js?v=3';
+import {render} from './render.js?v=5';
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canHover = matchMedia('(hover: hover)').matches;
@@ -63,8 +63,11 @@ if (!reduce && !lowPower) {
   lenis.stop();
 }
 const mmenu = $('#mmenu');
-const closeMenu = () => mmenu.classList.remove('open');
-$('#menuBtn').addEventListener('click', () => mmenu.classList.toggle('open'));
+const menuBtn = $('#menuBtn');
+const setMenu = open => { mmenu.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', open); menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); };
+const closeMenu = () => setMenu(false);
+menuBtn.addEventListener('click', () => setMenu(!mmenu.classList.contains('open')));
+addEventListener('keydown', e => { if (e.key === 'Escape' && mmenu.classList.contains('open')) { closeMenu(); menuBtn.focus(); } });
 $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
   const id = a.getAttribute('href');
   const el = id === '#top' ? 0 : $(id);
@@ -263,7 +266,7 @@ function tagSphere() {
       const x = it.x * cy + it.z * sy; z = -it.x * sy + it.z * cy; it.x = x; it.z = z;
       const sc = (it.z + 2) / 3;
       it.s.style.transform = `translate(-50%,-50%) translate3d(${it.x * R}px,${it.y * R}px,0) scale(${sc})`;
-      it.s.style.opacity = .2 + .8 * (it.z + 1) / 2;
+      it.s.style.opacity = .62 + .38 * (it.z + 1) / 2;
       it.s.style.zIndex = Math.round((it.z + 1) * 50);
     }
     if (!drag) { ax += (.002 - ax) * .03; ay += (.003 - ay) * .03; }

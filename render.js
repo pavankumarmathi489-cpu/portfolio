@@ -133,7 +133,7 @@ export function render(c) {
         <span class="ic">${svgIcon(x.icon)}</span>
         <span class="st ${x.inProgress ? 'wip' : ''}"><i></i>${esc(x.status)}</span>
       </div>
-      <h4>${esc(x.title)}</h4>
+      <h3>${esc(x.title)}</h3>
       <p>${md(x.description)}</p>
       <div class="chips">${x.tags.map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>
       ${(x.live || x.source) ? `<div class="plinks">${x.live ? `<a href="${esc(x.live)}" target="_blank" rel="noopener">↗ Live site</a>` : ''}${x.source ? `<a href="${esc(x.source)}" target="_blank" rel="noopener">${GH.replace('<svg', '<svg width="13" height="13"')} Source</a>` : ''}</div>` : ''}
@@ -148,7 +148,7 @@ export function render(c) {
   set('#journeyHead', head(jo));
   set('#tlItems', jo.items.map(j => `
     <div class="ti" data-reveal><div class="when">${esc(j.when)}</div><span class="dot"></span>
-      <div class="what"><div class="k">${esc(j.kind)}</div><h4>${esc(j.title)}</h4><p>${md(j.text)}</p></div></div>`).join(''));
+      <div class="what"><div class="k">${esc(j.kind)}</div><h3>${esc(j.title)}</h3><p>${md(j.text)}</p></div></div>`).join(''));
 
   // resumes
   const re = c.resumes;
@@ -156,7 +156,7 @@ export function render(c) {
   set('#rgrid', re.items.map(r => `
     <div class="rcard" style="--c:${COLORS[r.color] || COLORS.cyan}" data-reveal>
       <div class="tag">${esc(r.tag)}</div>
-      <h4>${esc(r.title)}</h4>
+      <h3>${esc(r.title)}</h3>
       <p>${md(r.text)}</p>
       <div class="actions"><a class="btn solid magnetic" href="${esc(r.file)}" target="_blank" rel="noopener">View PDF</a><a class="btn magnetic" href="${esc(r.file)}" download>Download</a></div>
     </div>`).join(''));
