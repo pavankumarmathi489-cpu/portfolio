@@ -1,0 +1,164 @@
+{
+  "profile": {
+    "firstLine": "Pavan Kumar",
+    "secondLine": "Mathi.",
+    "status": "Open to 2027 roles · Embedded · Edge AI · Software",
+    "roles": ["Embedded Systems Engineer", "Edge AI Developer", "Robotics Builder", "Full-Stack Developer", "Firmware + AI, end to end"],
+    "lede": "Final-year ECE engineer who builds intelligent machines end to end: the circuit, the firmware, the AI model on top, and the app you control it from. Mostly offline, always on real hardware.",
+    "coords": "18.11° N, 83.40° E",
+    "place": "MVGR College of Engineering",
+    "email": "mpk92789@gmail.com",
+    "phone": "+91 62813 94267",
+    "location": "Vizianagaram, Andhra Pradesh",
+    "linkedin": "https://www.linkedin.com/in/pavan-kumar-mathi-b554683a",
+    "github": "https://github.com/pavankumarmathi489-cpu",
+    "marquee": ["Embedded C", "Edge AI", "Robotics", "ARM7 LPC2148", "YOLOv8", "Local LLMs", "ESP32", "Flask", "PCB Design", "Computer Vision", "IoT", "Python"]
+  },
+  "about": {
+    "eyebrow": "01 · About me",
+    "heading": "I make hardware *think.*",
+    "photo": "assets/pavan.webp",
+    "taglines": ["● ECE · Class of 2027", "hardware + AI + web", "MVGR · Vizianagaram"],
+    "paragraphs": [
+      "I'm **Pavan Kumar Mathi**, a final-year B.Tech Electronics & Communication Engineering student at **MVGR College of Engineering**, Vizianagaram, graduating in 2027.",
+      "I like owning the whole stack. I wire the sensors, write the firmware in Embedded C, train the vision model, and run a local LLM on top, with no cloud needed. Right now I'm building **A.I.R**, an offline companion rover on the Arduino UNO Q, and **KAISER**, a personal AI agent with 41 tools and 365 automated tests.",
+      "On the side I ship real web apps for real businesses, like the live e-commerce site for a local fancy store."
+    ],
+    "stats": [
+      {"value": "auto", "suffix": "", "label": "projects built"},
+      {"value": "2", "suffix": "", "label": "industry internships"},
+      {"value": "0.951", "suffix": "", "label": "mAP50 · A.I.R vision model"},
+      {"value": "365", "suffix": "", "label": "automated tests · KAISER"}
+    ],
+    "facts": [
+      {"label": "Based in", "value": "Vizianagaram, AP"},
+      {"label": "Degree", "value": "B.Tech ECE · 2027"},
+      {"label": "Languages", "value": "Telugu · English · Hindi"},
+      {"label": "Work mode", "value": "On-site / Hybrid"}
+    ]
+  },
+  "skills": {
+    "eyebrow": "02 · Skills",
+    "heading": "From *silicon* to software.",
+    "lead": "Drag the sphere. Every tag is something I've used in a project you can find further down this page.",
+    "sphere": ["Embedded C", "Python", "LPC2148", "ESP32", "UNO Q", "YOLOv8", "OpenCV", "Ollama", "RAG", "Flask", "PostgreSQL", "UART", "I2C", "SPI", "RTC", "PWM", "PCB", "Fusion 360", "MediaPipe", "LoRA", "Whisper", "Razorpay", "Vercel", "Git", "Linux", "Keil", "Blynk", "n8n", "Three.js", "Streamlit", "PyTorch", "DistilBERT", "ResNet50", "PuLP", "Arduino", "Sensors", "Rust", "JavaScript", "Playwright", "Interrupts"],
+    "categories": [
+      {"title": "Embedded & Hardware", "note": "core", "color": "cyan", "icon": "chip",
+       "items": ["Embedded C", "ARM7 · LPC2148", "Arduino UNO / UNO Q", "ESP32 · ESP32-CAM", "Keil uVision", "UART · I2C · SPI · ADC", "Timers · Interrupts · RTC", "Sensors & motor drivers", "PCB & circuit design"]},
+      {"title": "AI & Machine Learning", "note": "edge-first", "color": "violet", "icon": "network",
+       "items": ["YOLOv8 detection", "OpenCV", "MediaPipe", "DistilBERT · ResNet50", "Local LLMs · Ollama", "LoRA fine-tuning", "RAG · embeddings", "Tool-calling agents", "Whisper · Piper speech"]},
+      {"title": "Software & Web", "note": "full-stack", "color": "lime", "icon": "code",
+       "items": ["Python", "C", "JavaScript · HTML · CSS", "Flask", "SQLAlchemy", "PostgreSQL (Neon)", "REST APIs", "Razorpay payments", "Streamlit", "Rust (basics)"]},
+      {"title": "Tools & Platforms", "note": "daily", "color": "amber", "icon": "wrench",
+       "items": ["Git & GitHub", "Vercel", "Linux (Debian)", "Google Colab", "Fusion 360", "AutoCAD", "arduino-cli", "n8n · Airtable", "Blynk IoT", "Playwright"]}
+    ]
+  },
+  "featured": {
+    "eyebrow": "03 · Featured work",
+    "heading": "Things I've *built.*",
+    "lead": "Projects that show how I work, from a rover's motor driver to a payment webhook. Keep scrolling and they slide past.",
+    "items": [
+      {"kind": "Robotics · Edge AI · Embedded", "title": "A.I.R — Artificial Intelligence Rover", "badge": "Final-year project · in progress", "badgeColor": "amber",
+       "intro": "An offline companion rover that sees, listens, talks and moves on its own. It runs on the Arduino UNO Q (Debian Linux plus an on-board MCU), so nothing goes to the cloud.",
+       "bullets": ["Trained a YOLOv8n object detector on 592 images; the AI \"brain\" picks a behaviour mode and the MCU drives the motors.", "Local LLM (qwen2.5 1.5B on Ollama) for conversation, Moonshine speech-to-text and Piper text-to-speech.", "Built a 2D house simulator where the real AI code drives a virtual MCU; fixed a stuck-in-corner bug down to 0 wall bumps in a 5-minute run."],
+       "metrics": [{"value": "0.951", "label": "mAP@50"}, {"value": "0.948", "label": "recall"}, {"value": "8", "label": "on-board models"}, {"value": "~2.5 s", "label": "LLM reply"}],
+       "tags": ["Arduino UNO Q", "YOLOv8", "Ollama", "Python", "Embedded C", "MediaPipe"], "links": [], "art": "rover", "image": "", "glow": "cyan"},
+      {"kind": "AI agent · Python · Offline", "title": "KAISER — Personal AI Agent", "badge": "v12 · daily driver", "badgeColor": "lime",
+       "intro": "A JARVIS-style assistant that runs fully on my laptop. Say \"Hey Kaiser\" and it plans a task, asks before anything risky, runs it with real tools, checks the result and reports back.",
+       "bullets": ["41 tools: writes, tests and fixes code; packages a Windows .exe; researches the web with citations; answers questions from PDFs.", "Security first: Windows AppContainer sandbox, guarded browser (SSRF-safe), tamper-evident HMAC audit log, signed phone commands with a PIN.", "Grew out of my earlier ZORO assistant and LoRA fine-tuning experiments on Qwen."],
+       "metrics": [{"value": "41", "label": "tools"}, {"value": "365", "label": "tests passing"}, {"value": "0", "label": "cloud calls"}],
+       "tags": ["Python", "Ollama", "RAG", "Whisper", "Playwright", "Three.js UI"], "links": [], "art": "agent", "image": "", "glow": "violet"},
+      {"kind": "Multimodal AI · Optimisation", "title": "Disaster Response Decision Support", "badge": "Complete", "badgeColor": "lime",
+       "intro": "Turns messy disaster reports (text and photos) into a ranked list of zones and a fair plan for sending rescue teams, ambulances and supplies, with a plain-English reason for each choice.",
+       "bullets": ["Fine-tuned DistilBERT on 15 humanitarian categories and ResNet50 on damage severity (CrisisNLP / CrisisMMD).", "Found that blending text and image severity hurt accuracy, so redesigned it as two axes: damage and urgency.", "PuLP linear programming for fair allocation, an LLM for explanations, a Streamlit dashboard."],
+       "metrics": [{"value": "+24.8%", "label": "coverage vs baseline"}, {"value": "<100 ms", "label": "per report, CPU"}],
+       "tags": ["PyTorch", "Transformers", "PuLP", "Streamlit"], "links": [{"label": "Source", "url": "https://github.com/pavankumarmathi489-cpu/disaster-response-system"}], "art": "map", "image": "", "glow": "amber"},
+      {"kind": "Full-stack web · E-commerce", "title": "Ladies Fancy Store — Online Shop", "badge": "Live in production", "badgeColor": "lime",
+       "intro": "A real e-commerce site for a local ladies fancy store, built and deployed for the owner. It runs as a catalogue today, and full ordering can be switched on from the admin panel when the shop is ready.",
+       "bullets": ["Flask + SQLAlchemy on Neon Postgres, deployed on Vercel with auto-deploy from GitHub.", "Cart, checkout, Razorpay + cash on delivery, and pickup / local / courier delivery are all built in.", "Admin panel for products, categories, orders and shop settings; red-gold theme with animations."],
+       "metrics": [],
+       "tags": ["Flask", "PostgreSQL", "Razorpay", "Vercel", "Jinja"], "links": [{"label": "Visit live site", "url": "https://ladies-fancy-store.vercel.app"}], "art": "shop", "image": "", "glow": "red"},
+      {"kind": "Robotics · IoT · Computer vision", "title": "ESP32-CAM Surveillance Robot", "badge": "Complete · upgrading", "badgeColor": "lime",
+       "intro": "A Wi-Fi robot car that streams live video to a browser dashboard and drives from a phone or laptop. It's the hardware ancestor of A.I.R.",
+       "bullets": ["MJPEG live streaming from the ESP32-CAM with a web dashboard for movement and speed control.", "Variable motor-speed (PWM) control and precise turning through the motor driver.", "Next: on-board human detection and alerts with snapshot capture."],
+       "metrics": [],
+       "tags": ["ESP32-CAM", "Arduino IDE", "Motor drivers", "Wi-Fi"], "links": [], "art": "camera", "image": "", "glow": "lime"}
+    ]
+  },
+  "projects": {
+    "eyebrow": "04 · Every project",
+    "heading": "The full *archive.*",
+    "lead": "Everything I've built, from course projects to client work. Filter by the side of engineering you care about.",
+    "items": [
+      {"title": "A.I.R — Artificial Intelligence Rover", "filters": ["ai", "iot", "emb"], "inProgress": true, "status": "Final-year project",
+       "description": "Offline companion rover on the Arduino UNO Q: YOLOv8n vision (mAP50 0.951), local LLM chat, speech in and out, MCU motor firmware and a 2D simulator for testing the AI brain.",
+       "tags": ["UNO Q", "YOLOv8", "Ollama", "Embedded C"], "icon": "rover", "live": "", "source": ""},
+      {"title": "KAISER — Personal AI Agent", "filters": ["ai", "web"], "inProgress": false, "status": "v12",
+       "description": "Offline JARVIS-style agent with 41 tools: plans, asks, executes and verifies tasks; coding loop, web research, PDF Q&A, phone control; sandboxed; 365 tests.",
+       "tags": ["Python", "Ollama", "RAG", "Whisper"], "icon": "brain", "live": "", "source": ""},
+      {"title": "Disaster Response Decision Support", "filters": ["ai"], "inProgress": false, "status": "Complete",
+       "description": "Multimodal text + image classification (DistilBERT, ResNet50), two-axis severity, fair LP resource allocation and LLM explanations. +24.8% coverage vs baseline.",
+       "tags": ["PyTorch", "PuLP", "Streamlit"], "icon": "map", "live": "", "source": "https://github.com/pavankumarmathi489-cpu/disaster-response-system"},
+      {"title": "Ladies Fancy Store — E-commerce", "filters": ["web"], "inProgress": false, "status": "Live",
+       "description": "Online shop for a local store: catalogue, cart, Razorpay + COD checkout, delivery options and an admin panel. Flask, Neon Postgres, Vercel.",
+       "tags": ["Flask", "PostgreSQL", "Razorpay", "Vercel"], "icon": "shop", "live": "https://ladies-fancy-store.vercel.app", "source": ""},
+      {"title": "Back Benchers Food Stall — Ordering", "filters": ["web"], "inProgress": false, "status": "Complete",
+       "description": "Online ordering for a college food stall: menu, Razorpay payments with webhook verification and server-side pricing, and an admin order board (Confirmed → Preparing → Ready).",
+       "tags": ["Flask", "Razorpay", "Postgres"], "icon": "food", "live": "", "source": ""},
+      {"title": "Digital Countdown Timer with RTC", "filters": ["emb"], "inProgress": false, "status": "Tested on board",
+       "description": "LPC2148 clock + countdown: date/day, 12/24 h, alarm with snooze, hourly chime, stopwatch with laps, pot-set countdown via ADC, 1 ms timer base. Team of 3.",
+       "tags": ["ARM7", "Embedded C", "RTC", "ADC"], "icon": "clock", "live": "", "source": ""},
+      {"title": "ESP32-CAM Surveillance Robot", "filters": ["iot"], "inProgress": false, "status": "Complete",
+       "description": "Wi-Fi robot car with MJPEG live video, browser dashboard control and PWM motor-speed control. Adding on-board human detection and alerts next.",
+       "tags": ["ESP32-CAM", "Wi-Fi", "Motor driver"], "icon": "cam", "live": "", "source": ""},
+      {"title": "Hand-Gesture Command Recognizer", "filters": ["ai", "iot"], "inProgress": false, "status": "Complete",
+       "description": "MediaPipe 21-point hand tracking with geometric rules for 11 robot commands (stop, follow, turn, speed). No training needed; sends commands over serial; runs headless on the UNO Q.",
+       "tags": ["MediaPipe", "OpenCV", "Serial"], "icon": "hand", "live": "", "source": ""},
+      {"title": "Weather Monitoring IoT System", "filters": ["iot"], "inProgress": false, "status": "Community project",
+       "description": "Multi-sensor node (LDR, rain, soil moisture) streaming live readings to a Blynk dashboard for remote monitoring. Team of 4.",
+       "tags": ["Sensors", "Blynk", "IoT"], "icon": "cloud", "live": "", "source": ""},
+      {"title": "Digital Image & Video Processing + AI", "filters": ["ai"], "inProgress": false, "status": "Complete",
+       "description": "Real-time OpenCV pipeline: adaptive grayscale for low-contrast scenes and pixel-intensity histograms feeding an offline AI model for scene descriptions.",
+       "tags": ["Python", "OpenCV"], "icon": "eye", "live": "", "source": "https://github.com/pavankumarmathi489-cpu/DIVP-AI-Image-Processing"},
+      {"title": "AI Feedback Routing Agent", "filters": ["ai", "web"], "inProgress": false, "status": "Complete",
+       "description": "n8n workflow where an LLM classifies feedback as complaint, compliment or suggestion, routes it to the right team, logs it in Airtable and sends a reply email.",
+       "tags": ["n8n", "Airtable", "LLM"], "icon": "flow", "live": "", "source": ""},
+      {"title": "ZORO Voice Assistant", "filters": ["ai"], "inProgress": false, "status": "Predecessor of KAISER",
+       "description": "My first desktop voice assistant with a HUD-style GUI, voice input/output and safety protocols. What I learned from it shaped KAISER's architecture.",
+       "tags": ["Python", "Speech", "GUI"], "icon": "wave", "live": "", "source": ""},
+      {"title": "Hackathon Hardware Prototype", "filters": ["iot"], "inProgress": false, "status": "28th / 100+",
+       "description": "Team lead and CAD designer at the Autodesk 36-hour hackathon (ANITS); modelled the prototype in Fusion 360.",
+       "tags": ["Fusion 360", "CAD", "Team lead"], "icon": "cube", "live": "", "source": ""},
+      {"title": "This Portfolio", "filters": ["web"], "inProgress": false, "status": "You're on it",
+       "description": "Hand-written HTML/CSS/JS with a Three.js particle scene that morphs per section, GSAP scroll animations and smooth scrolling. No frameworks.",
+       "tags": ["Three.js", "GSAP", "JavaScript"], "icon": "code", "live": "", "source": "https://github.com/pavankumarmathi489-cpu/portfolio"}
+    ]
+  },
+  "journey": {
+    "eyebrow": "05 · Journey",
+    "heading": "Experience & *milestones.*",
+    "items": [
+      {"when": "Oct 2026", "kind": "Final-year project", "title": "A.I.R presented at Review Phase-I", "text": "Presented the rover's design, AI pipeline, real model results and costing to the department. Batch-11, ECE-B, guided by Dr. B. Lavanya."},
+      {"when": "Jun – Jul 2026", "kind": "Internship", "title": "Embedded Systems & IoT Intern · Sreshta Semicon Technologies", "text": "Hands-on training and project work in embedded development and IoT architecture, linking hardware data to software systems (8 Jun – 3 Jul 2026)."},
+      {"when": "May – Jun 2026", "kind": "Internship", "title": "PCB Design & Electronics Intern · Pantech Solutions", "text": "PCB layout workflow, circuit design practice and 8255-based microcontroller board fundamentals."},
+      {"when": "Jan 2026", "kind": "Hackathon", "title": "Team Lead · Autodesk 36-Hour Hackathon, ANITS", "text": "Led the team and did the Fusion 360 CAD for our hardware prototype. Ranked 28th of 100+ teams."},
+      {"when": "Aadhrita fest", "kind": "Leadership", "title": "SPOC Coordinator · Electronics Workshop, MVGR", "text": "Organised a one-day electronics workshop at MVGR's Aadhrita tech fest and mentored 50+ participants in embedded basics. Also took part in the Aadhrita Cadathon."},
+      {"when": "2023 – 2027", "kind": "Education", "title": "B.Tech, Electronics & Communication Engineering", "text": "MVGR College of Engineering (A), Vizianagaram. Expected graduation 2027."},
+      {"when": "2021 – 2023", "kind": "Education", "title": "Intermediate (MPC)", "text": "Sri Chaitanya Junior College, Vizianagaram."}
+    ]
+  },
+  "resumes": {
+    "eyebrow": "06 · Résumé",
+    "heading": "Pick the *version* you need.",
+    "lead": "Three one-page, ATS-friendly résumés, each focused on a different kind of role.",
+    "items": [
+      {"tag": "Software · AI", "title": "Software & AI Engineer", "text": "KAISER, the A.I.R AI stack, the disaster-response system and the full-stack web apps. For software, AI/ML and web roles.", "file": "resume/Pavan_Kumar_Mathi_Resume_Software.pdf", "color": "violet"},
+      {"tag": "Hardware · Core", "title": "Embedded & Hardware Engineer", "text": "LPC2148 firmware, the A.I.R rover hardware, ESP32 robotics, IoT and PCB internships. For core ECE, embedded and IoT roles.", "file": "resume/Pavan_Kumar_Mathi_Resume_Hardware.pdf", "color": "cyan"},
+      {"tag": "Combined", "title": "Hardware + Software", "text": "My strongest projects from both sides on one page. For product companies, robotics and edge-AI roles.", "file": "resume/Pavan_Kumar_Mathi_Resume_Combined.pdf", "color": "lime"}
+    ]
+  },
+  "contact": {
+    "eyebrow": "07 · Contact",
+    "lines": ["Let's build", "something", "that thinks."]
+  }
+}

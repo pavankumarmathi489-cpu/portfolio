@@ -135,12 +135,9 @@ section{position:relative;padding:clamp(90px,14vh,160px) 0}
 .about-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(36px,6vw,90px);align-items:center}
 .portrait{position:relative;aspect-ratio:4/4.6;max-width:500px;width:100%;margin:0 auto;perspective:1000px}
 .portrait .frame{position:absolute;inset:0;border-radius:28px;overflow:hidden;transform-style:preserve-3d;
-  background:radial-gradient(circle at 50% 35%,rgba(34,211,238,.28),transparent 60%),linear-gradient(160deg,#0d1424,#070a12);border:1px solid var(--line2)}
-.portrait img{position:absolute;bottom:0;left:50%;height:92%;width:auto;max-width:none;transform:translateX(-50%);filter:contrast(1.05) saturate(.95);
+  background:linear-gradient(170deg,#1a1f2a,#0c0f16);border:1px solid var(--line2)}
+.portrait img{position:absolute;bottom:0;left:50%;height:92%;width:auto;max-width:none;transform:translateX(-50%);
   -webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent)}
-.portrait .scan{position:absolute;left:0;right:0;height:30%;background:linear-gradient(transparent,rgba(34,211,238,.16),transparent);top:-30%;animation:scan 4.5s ease-in-out infinite}
-@keyframes scan{0%{top:-30%}60%,100%{top:110%}}
-.portrait .grid-o{position:absolute;inset:0;background-image:linear-gradient(rgba(34,211,238,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,.08) 1px,transparent 1px);background-size:28px 28px}
 .portrait .ring{position:absolute;inset:-22px;border:1px dashed rgba(167,139,250,.35);border-radius:36px;animation:spin 40s linear infinite;pointer-events:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 .portrait .tagline{position:absolute;font-family:var(--mono);font-size:11.5px;padding:8px 12px;border-radius:10px;background:rgba(5,7,13,.82);border:1px solid var(--line2);backdrop-filter:blur(6px);white-space:nowrap}
@@ -183,6 +180,7 @@ section{position:relative;padding:clamp(90px,14vh,160px) 0}
 .htrack{display:flex;gap:clamp(20px,3vw,40px);padding:60px var(--pad) clamp(110px,16vh,170px);width:max-content;will-change:transform}
 .fcard{width:min(80vw,960px);flex:none;border-radius:28px;border:1px solid var(--line2);background:linear-gradient(160deg,rgba(18,24,40,.92),rgba(8,11,20,.94));display:grid;grid-template-columns:1fr 1.05fr;overflow:hidden;position:relative;min-height:min(560px,72vh)}
 .fcard .vis{position:relative;overflow:hidden;background:radial-gradient(circle at 30% 30%,var(--g1,rgba(34,211,238,.35)),transparent 60%),radial-gradient(circle at 80% 80%,var(--g2,rgba(167,139,250,.3)),transparent 55%),#070a12;display:grid;place-items:center;border-right:1px solid var(--line)}
+.fcard .vis img.shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .fcard .vis svg.art{width:80%;height:auto;max-height:78%;overflow:visible}
 .fcard .vis .num{position:absolute;left:24px;top:14px;font-family:var(--display);font-weight:700;font-size:96px;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(230,237,247,.22)}
 .fcard .vis .badge{position:absolute;right:18px;top:18px;font-family:var(--mono);font-size:11px;padding:6px 10px;border-radius:999px;background:rgba(5,7,13,.75);border:1px solid var(--line2);display:flex;align-items:center;gap:8px}
@@ -311,7 +309,6 @@ footer{border-top:1px solid var(--line);padding:26px var(--pad);display:flex;jus
   .nav.scrolled{background:rgba(5,7,13,.94)}
   .mobile-menu{background:rgba(5,7,13,.98)}
   .cat,.pcard,.rcard{background:rgba(12,16,28,.9)}
-  .portrait .scan{display:none}
   .portrait .ring{animation:none}
   .fcard,.pcard,.stat,.cat{contain:layout paint}
 }
@@ -364,16 +361,12 @@ footer{border-top:1px solid var(--line);padding:26px var(--pad);display:flex;jus
 
 <main id="top">
 
-<!-- ================= HERO ================= -->
 <section class="hero" data-shape="0" data-sx="2" data-sxm="0">
   <div class="wrap">
-    <div class="hero-status" data-hero><i></i>Open to 2027 roles · Embedded · Edge AI · Software</div>
-    <h1 aria-label="Pavan Kumar Mathi">
-      <span class="w w1">Pavan Kumar</span>
-      <span class="w w2">Mathi.</span>
-    </h1>
-    <div class="role" data-hero><span class="pre">&gt;</span><span id="roleText">Embedded Systems Engineer</span><span class="caret"></span></div>
-    <p class="lede" data-hero>Final-year ECE engineer who builds intelligent machines end to end: the circuit, the firmware, the AI model on top, and the app you control it from. Mostly offline, always on real hardware.</p>
+    <div class="hero-status" id="heroStatus" data-hero></div>
+    <h1 id="heroName"></h1>
+    <div class="role" data-hero><span class="pre">&gt;</span><span id="roleText"></span><span class="caret"></span></div>
+    <p class="lede" id="heroLede" data-hero></p>
     <div class="hero-ctas" data-hero>
       <a href="#work" class="btn solid magnetic">See my work
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
@@ -382,337 +375,96 @@ footer{border-top:1px solid var(--line);padding:26px var(--pad);display:flex;jus
   </div>
   <div class="hero-meta">
     <div class="scroll-hint"><span class="m"></span>scroll to explore</div>
-    <div class="coords">18.11° N, 83.40° E<br>MVGR College of Engineering</div>
+    <div class="coords" id="heroCoords"></div>
   </div>
 </section>
 
-<div class="marquee" aria-hidden="true"><div class="track">
-  <span>Embedded C</span><span>Edge AI</span><span>Robotics</span><span>ARM7 LPC2148</span><span>YOLOv8</span><span>Local LLMs</span><span>ESP32</span><span>Flask</span><span>PCB Design</span><span>Computer Vision</span><span>IoT</span><span>Python</span>
-  <span>Embedded C</span><span>Edge AI</span><span>Robotics</span><span>ARM7 LPC2148</span><span>YOLOv8</span><span>Local LLMs</span><span>ESP32</span><span>Flask</span><span>PCB Design</span><span>Computer Vision</span><span>IoT</span><span>Python</span>
-</div></div>
+<div class="marquee" aria-hidden="true"><div class="track" id="mq"></div></div>
 
-<!-- ================= ABOUT ================= -->
 <section id="about" data-shape="1" data-sx="-2.3" data-sxm="0">
   <div class="wrap about-grid">
     <div class="portrait" data-reveal>
       <div class="ring"></div>
       <div class="frame" id="pframe">
-        <div class="grid-o"></div>
-        <img src="assets/pavan.webp" alt="Portrait of Pavan Kumar Mathi" width="868" height="900">
-        <div class="scan"></div>
+        <img id="aboutPhoto" alt="Portrait of Pavan Kumar Mathi" width="868" height="900">
       </div>
-      <div class="tagline t1"><b>●</b> ECE · Class of 2027</div>
-      <div class="tagline t2">hardware <b>+</b> AI <b>+</b> web</div>
-      <div class="tagline t3">MVGR · Vizianagaram</div>
+      <div id="aboutTags"></div>
     </div>
     <div class="about-text">
-      <div class="eyebrow">01 · About me</div>
-      <h2 class="h2" data-split>I make hardware <em>think.</em></h2>
+      <div id="aboutHead"></div>
       <div style="height:28px"></div>
-      <p data-reveal>I'm <strong>Pavan Kumar Mathi</strong>, a final-year B.Tech Electronics &amp; Communication Engineering student at <strong>MVGR College of Engineering</strong>, Vizianagaram, graduating in 2027.</p>
-      <p data-reveal>I like owning the whole stack. I wire the sensors, write the firmware in Embedded C, train the vision model, and run a local LLM on top, with no cloud needed. Right now I'm building <strong>A.I.R</strong>, an offline companion rover on the Arduino UNO Q, and <strong>KAISER</strong>, a personal AI agent with 41 tools and 365 automated tests.</p>
-      <p data-reveal>On the side I ship real web apps for real businesses, like the live e-commerce site for a local fancy store.</p>
-      <div class="stats">
-        <div class="stat" data-reveal><div class="n"><span data-count="14">0</span></div><div class="l">projects built</div></div>
-        <div class="stat" data-reveal><div class="n"><span data-count="2">0</span></div><div class="l">industry internships</div></div>
-        <div class="stat" data-reveal><div class="n"><span data-count="0.951" data-dec="3">0</span></div><div class="l">mAP50 · A.I.R vision model</div></div>
-        <div class="stat" data-reveal><div class="n"><span data-count="365">0</span></div><div class="l">automated tests · KAISER</div></div>
-      </div>
-      <div class="facts" data-reveal>
-        <div>Based in<b>Vizianagaram, AP</b></div>
-        <div>Degree<b>B.Tech ECE · 2027</b></div>
-        <div>Languages<b>Telugu · English · Hindi</b></div>
-        <div>Work mode<b>On-site / Hybrid</b></div>
-      </div>
+      <div id="aboutText"></div>
+      <div class="stats" id="aboutStats"></div>
+      <div class="facts" id="aboutFacts" data-reveal></div>
     </div>
   </div>
 </section>
 
-<!-- ================= SKILLS ================= -->
 <section id="skills" data-shape="2" data-sx="2.4" data-sxm="0">
   <div class="wrap">
-    <div class="eyebrow">02 · Skills</div>
-    <h2 class="h2" data-split>From <em>silicon</em> to software.</h2>
-    <p class="lead" data-reveal>Drag the sphere. Every tag is something I've used in a project you can find further down this page.</p>
+    <div id="skillsHead"></div>
     <div class="skills-grid">
       <div class="sphere" id="sphere" data-reveal></div>
-      <div class="skill-cats">
-        <div class="cat" style="--c:var(--accent)" data-reveal>
-          <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></span>Embedded &amp; Hardware<small>core</small></h3>
-          <div class="chips"><span class="chip">Embedded C</span><span class="chip">ARM7 · LPC2148</span><span class="chip">Arduino UNO / UNO Q</span><span class="chip">ESP32 · ESP32-CAM</span><span class="chip">Keil uVision</span><span class="chip">UART · I2C · SPI · ADC</span><span class="chip">Timers · Interrupts · RTC</span><span class="chip">Sensors &amp; motor drivers</span><span class="chip">PCB &amp; circuit design</span></div>
-        </div>
-        <div class="cat" style="--c:var(--accent2)" data-reveal>
-          <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M6 7l3.5 3M18 7l-3.5 3M6 17l3.5-3M18 17l-3.5-3"/></svg></span>AI &amp; Machine Learning<small>edge-first</small></h3>
-          <div class="chips"><span class="chip">YOLOv8 detection</span><span class="chip">OpenCV</span><span class="chip">MediaPipe</span><span class="chip">DistilBERT · ResNet50</span><span class="chip">Local LLMs · Ollama</span><span class="chip">LoRA fine-tuning</span><span class="chip">RAG · embeddings</span><span class="chip">Tool-calling agents</span><span class="chip">Whisper · Piper speech</span></div>
-        </div>
-        <div class="cat" style="--c:var(--lime)" data-reveal>
-          <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></span>Software &amp; Web<small>full-stack</small></h3>
-          <div class="chips"><span class="chip">Python</span><span class="chip">C</span><span class="chip">JavaScript · HTML · CSS</span><span class="chip">Flask</span><span class="chip">SQLAlchemy</span><span class="chip">PostgreSQL (Neon)</span><span class="chip">REST APIs</span><span class="chip">Razorpay payments</span><span class="chip">Streamlit</span><span class="chip">Rust (basics)</span></div>
-        </div>
-        <div class="cat" style="--c:var(--warn)" data-reveal>
-          <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></span>Tools &amp; Platforms<small>daily</small></h3>
-          <div class="chips"><span class="chip">Git &amp; GitHub</span><span class="chip">Vercel</span><span class="chip">Linux (Debian)</span><span class="chip">Google Colab</span><span class="chip">Fusion 360</span><span class="chip">AutoCAD</span><span class="chip">arduino-cli</span><span class="chip">n8n · Airtable</span><span class="chip">Blynk IoT</span><span class="chip">Playwright</span></div>
-        </div>
-      </div>
+      <div class="skill-cats" id="skillCats"></div>
     </div>
   </div>
 </section>
 
-<!-- ================= FEATURED (horizontal) ================= -->
 <section id="work" class="featured" data-shape="3" data-sx="0" data-sxm="0">
-  <div class="wrap">
-    <div class="eyebrow">03 · Featured work</div>
-    <h2 class="h2" data-split>Things I've <em>built.</em></h2>
-    <p class="lead" data-reveal>Five projects that show how I work, from a rover's motor driver to a payment webhook. Keep scrolling and they slide past.</p>
-  </div>
+  <div class="wrap" id="workHead"></div>
   <div class="hpin" id="hpin">
-    <div class="htrack" id="htrack">
-
-      <article class="fcard" style="--g1:rgba(34,211,238,.4);--g2:rgba(163,230,53,.22)">
-        <div class="vis">
-          <span class="num">01</span>
-          <span class="badge" style="--b:var(--warn)"><i></i>Final-year project · in progress</span>
-          <svg class="art" viewBox="0 0 400 300" fill="none" stroke="#22d3ee" stroke-width="2">
-            <g class="float">
-              <rect x="110" y="120" width="180" height="70" rx="14" fill="rgba(34,211,238,.06)"/>
-              <rect x="150" y="70" width="100" height="50" rx="10" fill="rgba(34,211,238,.08)"/>
-              <circle cx="180" cy="95" r="9" fill="#22d3ee" class="eye"/><circle cx="220" cy="95" r="9" fill="#22d3ee" class="eye"/>
-              <path d="M200 70V40"/><circle cx="200" cy="34" r="6" fill="#a3e635" stroke="#a3e635"/>
-              <path d="M130 145h50M130 160h30" stroke="#a78bfa"/>
-              <rect x="230" y="140" width="40" height="28" rx="4" stroke="#a78bfa"/>
-            </g>
-            <g><circle cx="140" cy="205" r="26"/><circle cx="260" cy="205" r="26"/><circle cx="140" cy="205" r="8"/><circle cx="260" cy="205" r="8"/></g>
-            <path d="M60 240h280" stroke="rgba(148,163,184,.4)" stroke-dasharray="6 8"/>
-            <path class="sonar" d="M300 110a60 60 0 0 1 0 60M318 96a84 84 0 0 1 0 88" stroke="#a3e635"/>
-          </svg>
-        </div>
-        <div class="body">
-          <div class="kind">Robotics · Edge AI · Embedded</div>
-          <h3>A.I.R — Artificial Intelligence Rover</h3>
-          <p>An offline companion rover that sees, listens, talks and moves on its own. It runs on the Arduino UNO Q (Debian Linux plus an on-board MCU), so nothing goes to the cloud.</p>
-          <ul>
-            <li>Trained a YOLOv8n object detector on 592 images; the AI "brain" picks a behaviour mode and the MCU drives the motors.</li>
-            <li>Local LLM (qwen2.5 1.5B on Ollama) for conversation, Moonshine speech-to-text and Piper text-to-speech.</li>
-            <li>Built a 2D house simulator where the real AI code drives a virtual MCU; fixed a stuck-in-corner bug down to 0 wall bumps in a 5-minute run.</li>
-          </ul>
-          <div class="metrics">
-            <div class="metric"><b>0.951</b><span>mAP@50</span></div>
-            <div class="metric"><b>0.948</b><span>recall</span></div>
-            <div class="metric"><b>8</b><span>on-board models</span></div>
-            <div class="metric"><b>~2.5 s</b><span>LLM reply</span></div>
-          </div>
-          <div class="chips"><span class="chip">Arduino UNO Q</span><span class="chip">YOLOv8</span><span class="chip">Ollama</span><span class="chip">Python</span><span class="chip">Embedded C</span><span class="chip">MediaPipe</span></div>
-        </div>
-      </article>
-
-      <article class="fcard" style="--g1:rgba(167,139,250,.45);--g2:rgba(34,211,238,.25)">
-        <div class="vis">
-          <span class="num">02</span>
-          <span class="badge"><i></i>v12 · daily driver</span>
-          <svg class="art" viewBox="0 0 400 300" fill="none" stroke="#a78bfa" stroke-width="1.6">
-            <circle cx="200" cy="150" r="70" stroke-dasharray="4 7" class="orbit1"/>
-            <circle cx="200" cy="150" r="112" stroke="rgba(34,211,238,.6)" stroke-dasharray="2 10" class="orbit2"/>
-            <g stroke="#22d3ee"><path d="M200 116V60M234 150h70M200 184v56M166 150H96M224 126l40-40M176 174l-40 40M224 174l40 40M176 126l-40-40"/></g>
-            <g fill="#05070d" stroke="#22d3ee" stroke-width="2"><circle cx="200" cy="56" r="10"/><circle cx="308" cy="150" r="10"/><circle cx="200" cy="244" r="10"/><circle cx="92" cy="150" r="10"/><circle cx="268" cy="82" r="8"/><circle cx="132" cy="218" r="8"/><circle cx="268" cy="218" r="8"/><circle cx="132" cy="82" r="8"/></g>
-            <circle cx="200" cy="150" r="34" fill="rgba(167,139,250,.18)" stroke-width="2.4" class="core"/>
-            <text x="200" y="156" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#e6edf7" stroke="none">K</text>
-          </svg>
-        </div>
-        <div class="body">
-          <div class="kind">AI agent · Python · Offline</div>
-          <h3>KAISER — Personal AI Agent</h3>
-          <p>A JARVIS-style assistant that runs fully on my laptop. Say "Hey Kaiser" and it plans a task, asks before anything risky, runs it with real tools, checks the result and reports back.</p>
-          <ul>
-            <li>41 tools: writes, tests and fixes code; packages a Windows .exe; researches the web with citations; answers questions from PDFs.</li>
-            <li>Security first: Windows AppContainer sandbox, guarded browser (SSRF-safe), tamper-evident HMAC audit log, signed phone commands with a PIN.</li>
-            <li>Grew out of my earlier ZORO assistant and LoRA fine-tuning experiments on Qwen.</li>
-          </ul>
-          <div class="metrics">
-            <div class="metric"><b>41</b><span>tools</span></div>
-            <div class="metric"><b>365</b><span>tests passing</span></div>
-            <div class="metric"><b>0</b><span>cloud calls</span></div>
-          </div>
-          <div class="chips"><span class="chip">Python</span><span class="chip">Ollama</span><span class="chip">RAG</span><span class="chip">Whisper</span><span class="chip">Playwright</span><span class="chip">Three.js UI</span></div>
-        </div>
-      </article>
-
-      <article class="fcard" style="--g1:rgba(251,191,36,.3);--g2:rgba(239,68,68,.22)">
-        <div class="vis">
-          <span class="num">03</span>
-          <span class="badge"><i></i>Complete</span>
-          <svg class="art" viewBox="0 0 400 300" fill="none" stroke="#fbbf24" stroke-width="1.6">
-            <path d="M40 220c40-30 70-10 110-40s60-70 110-60 70 40 100 30" stroke="rgba(148,163,184,.35)"/>
-            <path d="M40 250c50-20 90 0 140-30s70-40 180-20" stroke="rgba(148,163,184,.25)"/>
-            <path d="M120 160L250 110L310 200" stroke="#e6edf7" stroke-dasharray="3 6"/>
-            <g transform="translate(120 160)"><circle r="30" fill="rgba(239,68,68,.15)" stroke="#ef4444" class="ping"/><circle r="6" fill="#ef4444" stroke="none"/></g>
-            <g transform="translate(250 110)"><circle r="22" fill="rgba(251,191,36,.12)" class="ping"/><circle r="6" fill="#fbbf24" stroke="none"/></g>
-            <g transform="translate(310 200)"><circle r="16" fill="rgba(34,211,238,.12)" stroke="#22d3ee" class="ping"/><circle r="5" fill="#22d3ee" stroke="none"/></g>
-            <rect x="40" y="40" width="120" height="60" rx="8" stroke="#a78bfa"/><path d="M52 58h70M52 72h50M52 86h86" stroke="#a78bfa"/>
-          </svg>
-        </div>
-        <div class="body">
-          <div class="kind">Multimodal AI · Optimisation</div>
-          <h3>Disaster Response Decision Support</h3>
-          <p>Turns messy disaster reports (text and photos) into a ranked list of zones and a fair plan for sending rescue teams, ambulances and supplies, with a plain-English reason for each choice.</p>
-          <ul>
-            <li>Fine-tuned DistilBERT on 15 humanitarian categories and ResNet50 on damage severity (CrisisNLP / CrisisMMD).</li>
-            <li>Found that blending text and image severity hurt accuracy, so redesigned it as two axes: damage and urgency.</li>
-            <li>PuLP linear programming for fair allocation, an LLM for explanations, a Streamlit dashboard.</li>
-          </ul>
-          <div class="metrics">
-            <div class="metric"><b>+24.8%</b><span>coverage vs baseline</span></div>
-            <div class="metric"><b>&lt;100 ms</b><span>per report, CPU</span></div>
-          </div>
-          <div class="chips"><span class="chip">PyTorch</span><span class="chip">Transformers</span><span class="chip">PuLP</span><span class="chip">Streamlit</span></div>
-          <div class="links"><a class="linkbtn" href="https://github.com/pavankumarmathi489-cpu/disaster-response-system" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>Source</a></div>
-        </div>
-      </article>
-
-      <article class="fcard" style="--g1:rgba(239,68,68,.32);--g2:rgba(251,191,36,.28)">
-        <div class="vis">
-          <span class="num">04</span>
-          <span class="badge"><i></i>Live in production</span>
-          <svg class="art" viewBox="0 0 400 300" fill="none" stroke="#fbbf24" stroke-width="1.6">
-            <rect x="70" y="40" width="260" height="200" rx="14" fill="rgba(5,7,13,.6)" stroke="rgba(230,237,247,.4)"/>
-            <path d="M70 66h260" stroke="rgba(230,237,247,.3)"/><circle cx="86" cy="53" r="4" fill="#ef4444" stroke="none"/><circle cx="100" cy="53" r="4" fill="#fbbf24" stroke="none"/><circle cx="114" cy="53" r="4" fill="#a3e635" stroke="none"/>
-            <rect x="88" y="80" width="224" height="40" rx="8" fill="rgba(239,68,68,.25)" stroke="none"/>
-            <g class="tiles"><rect x="88" y="132" width="68" height="84" rx="8"/><rect x="166" y="132" width="68" height="84" rx="8"/><rect x="244" y="132" width="68" height="84" rx="8"/></g>
-            <path d="M100 200h44M178 200h44M256 200h44" stroke="#ef4444" stroke-width="3"/>
-            <g transform="translate(300 230)"><g class="cart"><circle r="24" fill="#fbbf24" stroke="none"/><path d="M-10-6h4l4 12h10l3-9H-3" stroke="#05070d" stroke-width="2.2"/></g></g>
-          </svg>
-        </div>
-        <div class="body">
-          <div class="kind">Full-stack web · E-commerce</div>
-          <h3>Ladies Fancy Store — Online Shop</h3>
-          <p>A real e-commerce site for a local ladies fancy store, built and deployed for the owner. It runs as a catalogue today, and full ordering can be switched on from the admin panel when the shop is ready.</p>
-          <ul>
-            <li>Flask + SQLAlchemy on Neon Postgres, deployed on Vercel with auto-deploy from GitHub.</li>
-            <li>Cart, checkout, Razorpay + cash on delivery, and pickup / local / courier delivery are all built in.</li>
-            <li>Admin panel for products, categories, orders and shop settings; red-gold theme with animations.</li>
-          </ul>
-          <div class="chips"><span class="chip">Flask</span><span class="chip">PostgreSQL</span><span class="chip">Razorpay</span><span class="chip">Vercel</span><span class="chip">Jinja</span></div>
-          <div class="links"><a class="linkbtn" href="https://ladies-fancy-store.vercel.app" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg>Visit live site</a></div>
-        </div>
-      </article>
-
-      <article class="fcard" style="--g1:rgba(163,230,53,.3);--g2:rgba(34,211,238,.25)">
-        <div class="vis">
-          <span class="num">05</span>
-          <span class="badge"><i></i>Complete · upgrading</span>
-          <svg class="art" viewBox="0 0 400 300" fill="none" stroke="#a3e635" stroke-width="1.8">
-            <rect x="110" y="140" width="180" height="56" rx="10" fill="rgba(163,230,53,.06)"/>
-            <rect x="175" y="96" width="50" height="44" rx="6"/><circle cx="200" cy="118" r="12" stroke="#22d3ee" stroke-width="2.4"/><circle cx="200" cy="118" r="4" fill="#22d3ee" stroke="none"/>
-            <path class="beam" d="M212 112L340 60M212 124L340 176" stroke="rgba(34,211,238,.6)" stroke-dasharray="4 6"/>
-            <circle cx="140" cy="206" r="20"/><circle cx="260" cy="206" r="20"/>
-            <g class="wifi" stroke="#e6edf7"><path d="M84 92a30 30 0 0 1 40 0"/><path d="M74 80a46 46 0 0 1 60 0"/><circle cx="104" cy="102" r="3" fill="#e6edf7"/></g>
-          </svg>
-        </div>
-        <div class="body">
-          <div class="kind">Robotics · IoT · Computer vision</div>
-          <h3>ESP32-CAM Surveillance Robot</h3>
-          <p>A Wi-Fi robot car that streams live video to a browser dashboard and drives from a phone or laptop. It's the hardware ancestor of A.I.R.</p>
-          <ul>
-            <li>MJPEG live streaming from the ESP32-CAM with a web dashboard for movement and speed control.</li>
-            <li>Variable motor-speed (PWM) control and precise turning through the motor driver.</li>
-            <li>Next: on-board human detection and alerts with snapshot capture.</li>
-          </ul>
-          <div class="chips"><span class="chip">ESP32-CAM</span><span class="chip">Arduino IDE</span><span class="chip">Motor drivers</span><span class="chip">Wi-Fi</span></div>
-        </div>
-      </article>
-
-    </div>
+    <div class="htrack" id="htrack"></div>
     <div class="hprogress"><i id="hbar"></i></div>
-    <div class="hcount mono"><span id="hnow">01</span> / 05</div>
+    <div class="hcount mono"><span id="hnow">01</span> / <span id="htotal">05</span></div>
   </div>
 </section>
 
-<!-- ================= ALL PROJECTS ================= -->
 <section id="projects" data-shape="4" data-sx="0" data-sxm="0">
   <div class="wrap">
     <div class="proj-head">
-      <div>
-        <div class="eyebrow">04 · Every project</div>
-        <h2 class="h2" data-split>The full <em>archive.</em></h2>
-      </div>
-      <p class="lead" style="max-width:420px" data-reveal>Everything I've built, from course projects to client work. Filter by the side of engineering you care about.</p>
+      <div id="projHead"></div>
+      <p class="lead" style="max-width:420px" id="projLead" data-reveal></p>
     </div>
-    <div class="filters" id="filters">
-      <button class="on" data-f="all">All</button>
-      <button data-f="ai">AI &amp; ML</button>
-      <button data-f="web">Web &amp; Software</button>
-      <button data-f="emb">Embedded</button>
-      <button data-f="iot">Robotics &amp; IoT</button>
-    </div>
+    <div class="filters" id="filters"></div>
     <div class="pgrid" id="pgrid"></div>
   </div>
 </section>
 
-<!-- ================= JOURNEY ================= -->
 <section id="journey" data-shape="1" data-sx="2.5" data-sxm="0">
   <div class="wrap">
-    <div class="eyebrow">05 · Journey</div>
-    <h2 class="h2" data-split>Experience &amp; <em>milestones.</em></h2>
+    <div id="journeyHead"></div>
     <div class="tl" id="tl">
       <div class="rail"><i id="rail"></i></div>
-      <div class="ti" data-reveal><div class="when">Oct 2026</div><span class="dot"></span><div class="what"><div class="k">Final-year project</div><h4>A.I.R presented at Review Phase-I</h4><p>Presented the rover's design, AI pipeline, real model results and costing to the department. Batch-11, ECE-B, guided by Dr. B. Lavanya.</p></div></div>
-      <div class="ti" data-reveal><div class="when">Jun – Jul 2026</div><span class="dot"></span><div class="what"><div class="k">Internship</div><h4>Embedded Systems &amp; IoT Intern · Sreshta Semicon Technologies</h4><p>Hands-on training and project work in embedded development and IoT architecture, linking hardware data to software systems (8 Jun – 3 Jul 2026).</p></div></div>
-      <div class="ti" data-reveal><div class="when">May – Jun 2026</div><span class="dot"></span><div class="what"><div class="k">Internship</div><h4>PCB Design &amp; Electronics Intern · Pantech Solutions</h4><p>PCB layout workflow, circuit design practice and 8255-based microcontroller board fundamentals.</p></div></div>
-      <div class="ti" data-reveal><div class="when">Jan 2026</div><span class="dot"></span><div class="what"><div class="k">Hackathon</div><h4>Team Lead · Autodesk 36-Hour Hackathon, ANITS</h4><p>Led the team and did the Fusion 360 CAD for our hardware prototype. Ranked 28th of 100+ teams.</p></div></div>
-      <div class="ti" data-reveal><div class="when">Aadhrita fest</div><span class="dot"></span><div class="what"><div class="k">Leadership</div><h4>SPOC Coordinator · Electronics Workshop, MVGR</h4><p>Organised a one-day electronics workshop at MVGR's Aadhrita tech fest and mentored 50+ participants in embedded basics. Also took part in the Aadhrita Cadathon.</p></div></div>
-      <div class="ti" data-reveal><div class="when">2023 – 2027</div><span class="dot"></span><div class="what"><div class="k">Education</div><h4>B.Tech, Electronics &amp; Communication Engineering</h4><p>MVGR College of Engineering (A), Vizianagaram. Expected graduation 2027.</p></div></div>
-      <div class="ti" data-reveal><div class="when">2021 – 2023</div><span class="dot"></span><div class="what"><div class="k">Education</div><h4>Intermediate (MPC)</h4><p>Sri Chaitanya Junior College, Vizianagaram.</p></div></div>
+      <div id="tlItems"></div>
     </div>
   </div>
 </section>
 
-<!-- ================= RESUME ================= -->
 <section id="resume" data-shape="2" data-sx="-2.4" data-sxm="0">
   <div class="wrap">
-    <div class="eyebrow">06 · Résumé</div>
-    <h2 class="h2" data-split>Pick the <em>version</em> you need.</h2>
-    <p class="lead" data-reveal>Three one-page, ATS-friendly résumés, each focused on a different kind of role.</p>
-    <div class="rgrid">
-      <div class="rcard" style="--c:var(--accent2)" data-reveal>
-        <div class="tag">Software · AI</div>
-        <h4>Software &amp; AI Engineer</h4>
-        <p>KAISER, the A.I.R AI stack, the disaster-response system and the full-stack web apps. For software, AI/ML and web roles.</p>
-        <div class="actions"><a class="btn solid magnetic" href="resume/Pavan_Kumar_Mathi_Resume_Software.pdf" target="_blank" rel="noopener">View PDF</a><a class="btn magnetic" href="resume/Pavan_Kumar_Mathi_Resume_Software.pdf" download>Download</a></div>
-      </div>
-      <div class="rcard" style="--c:var(--accent)" data-reveal>
-        <div class="tag">Hardware · Core</div>
-        <h4>Embedded &amp; Hardware Engineer</h4>
-        <p>LPC2148 firmware, the A.I.R rover hardware, ESP32 robotics, IoT and PCB internships. For core ECE, embedded and IoT roles.</p>
-        <div class="actions"><a class="btn solid magnetic" href="resume/Pavan_Kumar_Mathi_Resume_Hardware.pdf" target="_blank" rel="noopener">View PDF</a><a class="btn magnetic" href="resume/Pavan_Kumar_Mathi_Resume_Hardware.pdf" download>Download</a></div>
-      </div>
-      <div class="rcard" style="--c:var(--lime)" data-reveal>
-        <div class="tag">Combined</div>
-        <h4>Hardware + Software</h4>
-        <p>My strongest projects from both sides on one page. For product companies, robotics and edge-AI roles.</p>
-        <div class="actions"><a class="btn solid magnetic" href="resume/Pavan_Kumar_Mathi_Resume_Combined.pdf" target="_blank" rel="noopener">View PDF</a><a class="btn magnetic" href="resume/Pavan_Kumar_Mathi_Resume_Combined.pdf" download>Download</a></div>
-      </div>
-    </div>
+    <div id="resumeHead"></div>
+    <div class="rgrid" id="rgrid"></div>
   </div>
 </section>
 
-<!-- ================= CONTACT ================= -->
 <section id="contact" class="contact" data-shape="0" data-sx="0" data-sxm="0">
   <div class="wrap">
-    <div class="eyebrow">07 · Contact</div>
-    <div class="big" data-split-big><span class="line-mask"><span>Let's build</span></span><span class="line-mask"><span class="o">something</span></span><span class="line-mask"><span>that thinks.</span></span></div>
-    <button class="mail magnetic" id="copyMail">mpk92789@gmail.com <span class="cp">click to copy</span></button>
+    <div class="eyebrow" id="contactEyebrow"></div>
+    <div class="big" id="contactBig" data-split-big></div>
+    <button class="mail magnetic" id="copyMail"></button>
     <div class="socials">
-      <a href="mailto:mpk92789@gmail.com" aria-label="Email" class="magnetic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
-      <a href="https://www.linkedin.com/in/pavan-kumar-mathi-b554683a" target="_blank" rel="noopener" aria-label="LinkedIn" class="magnetic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.7 4.8 6.1V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H9z"/></svg></a>
-      <a href="https://github.com/pavankumarmathi489-cpu" target="_blank" rel="noopener" aria-label="GitHub" class="magnetic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg></a>
-      <a href="tel:+916281394267" aria-label="Phone" class="magnetic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></a>
+      <a id="sMail" aria-label="Email" class="magnetic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+      <a id="sLinkedin" target="_blank" rel="noopener" aria-label="LinkedIn" class="magnetic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.7 4.8 6.1V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H9z"/></svg></a>
+      <a id="sGithub" target="_blank" rel="noopener" aria-label="GitHub" class="magnetic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg></a>
+      <a id="sPhone" aria-label="Phone" class="magnetic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></a>
     </div>
-    <div class="cinfo"><span>Phone <b>+91 62813 94267</b></span><span>Location <b>Vizianagaram, Andhra Pradesh</b></span></div>
+    <div class="cinfo" id="cinfo"></div>
   </div>
 </section>
 </main>
 
 <footer>
-  <span>© 2026 Pavan Kumar Mathi</span>
+  <span id="footName"></span>
   <span>Built from scratch · Three.js + GSAP</span>
   <a href="#top">Back to top ↑</a>
 </footer>
@@ -722,7 +474,6 @@ footer{border-top:1px solid var(--line);padding:26px var(--pad);display:flex;jus
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
-<script src="projects.js"></script>
 <script type="module" src="main.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {render} from './render.js';
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canHover = matchMedia('(hover: hover)').matches;
@@ -10,45 +11,17 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 gsap.registerPlugin(ScrollTrigger);
 if (lowPower) ScrollTrigger.config({ignoreMobileResize: true});
 
-/* ===================== icons ===================== */
-const ICONS = {
-  rover: '<rect x="4" y="9" width="16" height="7" rx="2"/><path d="M9 9V6h6v3M12 6V3"/><circle cx="7.5" cy="18" r="2"/><circle cx="16.5" cy="18" r="2"/>',
-  brain: '<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>',
-  map: '<path d="M12 21s-6-5.5-6-10a6 6 0 0 1 12 0c0 4.5-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>',
-  shop: '<path d="M4 8h16l-1 12H5zM8 8V6a4 4 0 0 1 8 0v2"/>',
-  food: '<path d="M5 11h14a7 7 0 0 1-14 0zM8 7c0-2 2-2 2-4M12 7c0-2 2-2 2-4"/><path d="M4 21h16"/>',
-  clock: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/>',
-  lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4M12 15v2"/>',
-  shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
-  chip: '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
-  cam: '<rect x="3" y="7" width="18" height="12" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 7l1.5-3h5L16 7"/>',
-  hand: '<path d="M8 13V5a1.5 1.5 0 0 1 3 0v6M11 11V4a1.5 1.5 0 0 1 3 0v7M14 11V6a1.5 1.5 0 0 1 3 0v8a7 7 0 0 1-7 7 6 6 0 0 1-5-3l-2.5-4a1.5 1.5 0 0 1 2.5-1.6L8 15"/>',
-  cloud: '<path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19 10a4 4 0 0 1 0 8z"/><path d="M9 21l1-2M13 21l1-2"/>',
-  eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
-  flow: '<rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><path d="M6 9v3h12V9M12 12v3"/>',
-  drone: '<circle cx="5" cy="5" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M7 7l2 2M17 7l-2 2M7 17l2-2M17 17l-2-2"/>',
-  wave: '<path d="M3 12h2M7 8v8M11 5v14M15 8v8M19 11v2"/>',
-  cube: '<path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/>',
-  code: '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/>'
-};
-const GH = '<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>';
-
-/* ===================== project grid ===================== */
-$('#pgrid').innerHTML = PROJECTS.map(p => `
-  <article class="pcard" data-f="${p.f.join(' ')}">
-    <div class="glare"></div>
-    <div class="top">
-      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[p.ic]}</svg></span>
-      <span class="st ${p.st === 'wip' ? 'wip' : ''}"><i></i>${p.s}</span>
-    </div>
-    <h4>${p.t}</h4>
-    <p>${p.d}</p>
-    <div class="chips">${p.tags.map(t => `<span class="chip">${t}</span>`).join('')}</div>
-    ${(p.gh || p.live) ? `<div class="plinks">${p.live ? `<a href="${p.live}" target="_blank" rel="noopener">↗ Live site</a>` : ''}${p.gh ? `<a href="${p.gh}" target="_blank" rel="noopener">${GH} Source</a>` : ''}</div>` : ''}
-  </article>`).join('');
-const counts = {all: PROJECTS.length};
-PROJECTS.forEach(p => p.f.forEach(f => counts[f] = (counts[f] || 0) + 1));
-$$('#filters button').forEach(b => b.insertAdjacentHTML('beforeend', `<sup>${counts[b.dataset.f]}</sup>`));
+/* ===================== content ===================== */
+// admin.html's "Preview" opens the page with ?preview, which shows the unsaved draft
+async function loadContent() {
+  if (new URLSearchParams(location.search).has('preview')) {
+    try { const d = localStorage.getItem('pkm-admin-draft'); if (d) return JSON.parse(d); } catch (e) {}
+  }
+  const r = await fetch('content.json', {cache: 'no-cache'});
+  return r.json();
+}
+const content = await loadContent();
+render(content);
 
 /* ===================== loader ===================== */
 const bootLines = [
@@ -132,7 +105,7 @@ if (canHover) {
 $$('.hero h1 .w').forEach(w => {
   w.innerHTML = [...w.textContent.trim()].map(c => `<span class="ch">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
 });
-const roles = ['Embedded Systems Engineer', 'Edge AI Developer', 'Robotics Builder', 'Full-Stack Developer', 'Firmware + AI, end to end'];
+const roles = content.profile.roles.length ? content.profile.roles : [''];
 const roleEl = $('#roleText');
 function scramble(el, to) {
   const chars = '!<>-_\\/[]{}=+*^?#01';
@@ -152,7 +125,7 @@ function scramble(el, to) {
   })();
 }
 let ri = 0;
-const cycleRoles = () => setInterval(() => { ri = (ri + 1) % roles.length; reduce ? roleEl.textContent = roles[ri] : scramble(roleEl, roles[ri]); }, 2800);
+const cycleRoles = () => roles.length > 1 && setInterval(() => { ri = (ri + 1) % roles.length; reduce ? roleEl.textContent = roles[ri] : scramble(roleEl, roles[ri]); }, 2800);
 
 function heroIntro() {
   if (reduce) return cycleRoles();
@@ -216,7 +189,8 @@ function horizontal() {
       if (i) gsap.fromTo(c, {rotateY: -16, scale: .9, opacity: .45, transformPerspective: 1400, transformOrigin: 'left center'},
         {rotateY: 0, scale: 1, opacity: 1, ease: 'none',
          scrollTrigger: {trigger: c, containerAnimation: tw, start: 'left 100%', end: 'left 40%', scrub: true}});
-      gsap.fromTo(c.querySelector('.art'), {xPercent: 18}, {xPercent: -12, ease: 'none',
+      const art = c.querySelector('.art');
+      if (art) gsap.fromTo(art, {xPercent: 18}, {xPercent: -12, ease: 'none',
         scrollTrigger: {trigger: c, containerAnimation: tw, start: 'left right', end: 'right left', scrub: true}});
     });
   });
@@ -258,14 +232,16 @@ $$('#filters button').forEach(b => b.addEventListener('click', () => {
 
 /* ===================== copy email ===================== */
 $('#copyMail').addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText('mpk92789@gmail.com'); }
-  catch (e) { location.href = 'mailto:mpk92789@gmail.com'; return; }
+  const mail = content.profile.email;
+  try { await navigator.clipboard.writeText(mail); }
+  catch (e) { location.href = 'mailto:' + mail; return; }
   const t = $('#toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1800);
 });
 
 /* ===================== 3D tag sphere ===================== */
 function tagSphere() {
-  const tags = ['Embedded C', 'Python', 'LPC2148', 'ESP32', 'UNO Q', 'YOLOv8', 'OpenCV', 'Ollama', 'RAG', 'Flask', 'PostgreSQL', 'UART', 'I2C', 'SPI', 'RTC', 'PWM', 'PCB', 'Fusion 360', 'MediaPipe', 'LoRA', 'Whisper', 'Razorpay', 'Vercel', 'Git', 'Linux', 'Keil', 'Blynk', 'n8n', 'Three.js', 'Streamlit', 'PyTorch', 'DistilBERT', 'ResNet50', 'PuLP', 'Arduino', 'Sensors', 'Rust', 'JavaScript', 'Playwright', 'Interrupts'];
+  const tags = content.skills.sphere;
+  if (!tags.length) return;
   const el = $('#sphere'), N = tags.length;
   const items = tags.map((t, i) => {
     const s = document.createElement('span'); s.textContent = t; s.className = 'c' + (i % 4); el.appendChild(s);
