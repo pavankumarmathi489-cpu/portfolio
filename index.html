@@ -13,7 +13,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305070d'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' font-family='monospace' font-weight='700' font-size='26' fill='%2322d3ee'%3EPK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#05070d; --bg2:#0a0e18; --panel:rgba(14,19,32,.62); --line:rgba(148,163,184,.14); --line2:rgba(148,163,184,.26);
@@ -321,6 +321,45 @@ footer{border-top:1px solid var(--line);padding:26px var(--pad);display:flex;jus
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
+
+/* ================= style B (fonts, solid headings, copper accent, calmer details) ================= */
+:root{
+  --display:"Bricolage Grotesque",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --accent2:#e0a458;               /* style B: copper, instead of a second neon */
+}
+body{font-size:16.5px}
+
+/* headings: solid colour, the key word in cyan instead of a gradient */
+.h2{font-weight:700;letter-spacing:-.02em}
+.h2 em{background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--accent);font-style:italic;font-weight:600}
+.hero h1{font-weight:700;letter-spacing:-.025em}
+.hero h1 .w2{-webkit-text-stroke-width:1.2px}
+.contact .big,.stat .n,#loader .pct{letter-spacing:-.025em}
+.fcard h3,.pcard h3,.ti h3,.rcard h3,.cat h3{letter-spacing:-.01em}
+
+/* calmer chrome */
+.grid-bg{display:none}
+.logo .dot{border-radius:2px;width:8px;height:8px;box-shadow:none;animation:none}
+.hero-status i{box-shadow:none}
+.progress-top,#loader .bar,.hprogress i,.tl .rail i{background:var(--accent)}
+
+/* skill boxes: no side stripe, a hairline highlight instead */
+.cat::before{display:none}
+.cat:hover{transform:none;border-color:rgba(34,211,238,.5);background:rgba(18,26,43,.75)}
+
+/* featured visuals: one soft light instead of two coloured clouds */
+.fcard .vis{background:linear-gradient(160deg,#111827,#070a12)}
+.fcard .vis::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,var(--g1),transparent 55%);opacity:.35}
+
+/* timeline + résumé accents pick up the copper */
+.ti .what .k{color:var(--accent2)}
+.ti .dot{border-color:var(--accent2);box-shadow:none}
+
+/* scrolling band moves slower and pauses under the mouse */
+.marquee .track{animation-duration:70s}
+.marquee:hover .track{animation-play-state:paused}
 </style>
 </head>
 <body class="loading">
