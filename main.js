@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {render} from './render.js';
+import {render} from './render.js?v=3';
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canHover = matchMedia('(hover: hover)').matches;
