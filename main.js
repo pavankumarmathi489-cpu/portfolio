@@ -3,9 +3,12 @@ import * as THREE from 'three';
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canHover = matchMedia('(hover: hover)').matches;
 const isMobile = () => innerWidth < 900;
+// phones and touch devices get the same design with lighter rendering
+const lowPower = isMobile() || matchMedia('(hover: none)').matches;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 gsap.registerPlugin(ScrollTrigger);
+if (lowPower) ScrollTrigger.config({ignoreMobileResize: true});
 
 /* ===================== icons ===================== */
 const ICONS = {
@@ -79,7 +82,7 @@ function runLoader() {
 
 /* ===================== smooth scroll ===================== */
 let lenis = null;
-if (!reduce) {
+if (!reduce && !lowPower) {
   lenis = new Lenis({lerp: .09, smoothWheel: true});
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(t => lenis.raf(t * 1000));
@@ -95,7 +98,7 @@ $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
   if (el === null) return;
   e.preventDefault(); closeMenu();
   if (lenis) lenis.scrollTo(el, {duration: 1.6});
-  else if (el === 0) scrollTo(0, 0); else el.scrollIntoView();
+  else if (el === 0) scrollTo({top: 0, behavior: 'smooth'}); else el.scrollIntoView({behavior: 'smooth'});
 }));
 
 /* ===================== nav state / progress ===================== */
@@ -274,7 +277,9 @@ function tagSphere() {
   addEventListener('pointermove', e => { if (!drag) return; ay = (e.clientX - lx) * .001; ax = -(e.clientY - ly) * .001; lx = e.clientX; ly = e.clientY; });
   addEventListener('pointerup', () => drag = false);
   new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible && !reduce) requestAnimationFrame(frame); }).observe(el);
+  let odd = false;
   function frame() {
+    if (lowPower && (odd = !odd)) { if (visible && !reduce) requestAnimationFrame(frame); return; }
     const R = el.clientWidth * .42;
     const cx = Math.cos(ax), sx = Math.sin(ax), cy = Math.cos(ay), sy = Math.sin(ay);
     for (const it of items) {
@@ -293,7 +298,7 @@ function tagSphere() {
 
 /* ===================== featured-card art idle motion ===================== */
 function artAnims() {
-  if (reduce) return;
+  if (reduce || lowPower) return;
   const loop = {yoyo: true, repeat: -1, ease: 'sine.inOut'};
   gsap.to('.fcard .float', {y: -8, duration: 1.6, ...loop});
   gsap.to('.fcard .sonar', {opacity: .15, duration: .8, ...loop});
@@ -315,10 +320,10 @@ function initGL() {
   let renderer;
   try { renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: true, powerPreference: 'high-performance'}); }
   catch (e) { canvas.remove(); return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, lowPower ? 1 : 1.75));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, .1, 100);
-  const N = isMobile() ? 6000 : 12000;
+  const N = lowPower ? 3500 : 12000;
   const rnd = Math.random;
 
   const shapes = [
@@ -367,7 +372,7 @@ function initGL() {
   const rand = new Float32Array(N); for (let i = 0; i < N; i++) rand[i] = rnd();
   geo.setAttribute('aRand', new THREE.BufferAttribute(rand, 1));
 
-  const uniforms = {uShape: {value: 0}, uTime: {value: 0}, uSize: {value: 30}, uPR: {value: renderer.getPixelRatio()}, uIntro: {value: 0}};
+  const uniforms = {uShape: {value: 0}, uTime: {value: 0}, uSize: {value: lowPower ? 40 : 30}, uPR: {value: renderer.getPixelRatio()}, uIntro: {value: 0}};
   const mat = new THREE.ShaderMaterial({uniforms, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     vertexShader: `
       attribute vec3 p1; attribute vec3 p2; attribute vec3 p3; attribute vec3 p4; attribute float aRand;
@@ -412,7 +417,11 @@ function initGL() {
 
   const mouse = {x: 0, y: 0, tx: 0, ty: 0};
   addEventListener('pointermove', e => { mouse.tx = e.clientX / innerWidth - .5; mouse.ty = e.clientY / innerHeight - .5; });
+  let lastW = 0;
   function resize() {
+    // phones fire resize when the address bar hides; only react to width changes there
+    if (lowPower && innerWidth === lastW) return;
+    lastW = innerWidth;
     renderer.setSize(innerWidth, innerHeight, false);
     camera.aspect = innerWidth / innerHeight;
     camera.position.z = innerWidth < 600 ? 12 : 9;
@@ -423,7 +432,9 @@ function initGL() {
   let vel = 0;
   if (lenis) lenis.on('scroll', e => { vel = e.velocity || 0; });
   const clock = new THREE.Clock();
+  let skip = false;
   renderer.setAnimationLoop(() => {
+    if (lowPower && (skip = !skip)) return;   // ~30 fps on phones
     const t = clock.getElapsedTime();
     uniforms.uTime.value = t;
     mouse.x += (mouse.tx - mouse.x) * .05; mouse.y += (mouse.ty - mouse.y) * .05;

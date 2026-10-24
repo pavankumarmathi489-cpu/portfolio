@@ -304,6 +304,18 @@ footer{border-top:1px solid var(--line);padding:26px var(--pad);display:flex;jus
 .progress-top{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:left;transform:scaleX(0);z-index:55;background:linear-gradient(90deg,var(--accent),var(--accent2))}
 @media (max-width:520px){.mail{flex-direction:column;gap:6px;padding:14px 22px;border-radius:22px}.mail .cp{border:0;padding:0}}
 
+/* ---------- phones / touch: same look, lighter rendering ---------- */
+@media (max-width:900px),(hover:none){
+  .grain{display:none}
+  .nav.scrolled,.mobile-menu,.cat,.pcard,.rcard,.portrait .tagline{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .nav.scrolled{background:rgba(5,7,13,.94)}
+  .mobile-menu{background:rgba(5,7,13,.98)}
+  .cat,.pcard,.rcard{background:rgba(12,16,28,.9)}
+  .portrait .scan{display:none}
+  .portrait .ring{animation:none}
+  .fcard,.pcard,.stat,.cat{contain:layout paint}
+}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -401,7 +413,7 @@ footer{border-top:1px solid var(--line);padding:26px var(--pad);display:flex;jus
       <p data-reveal>I like owning the whole stack. I wire the sensors, write the firmware in Embedded C, train the vision model, and run a local LLM on top, with no cloud needed. Right now I'm building <strong>A.I.R</strong>, an offline companion rover on the Arduino UNO Q, and <strong>KAISER</strong>, a personal AI agent with 41 tools and 365 automated tests.</p>
       <p data-reveal>On the side I ship real web apps for real businesses, like the live e-commerce site for a local fancy store.</p>
       <div class="stats">
-        <div class="stat" data-reveal><div class="n"><span data-count="18">0</span><sup>+</sup></div><div class="l">projects built</div></div>
+        <div class="stat" data-reveal><div class="n"><span data-count="14">0</span></div><div class="l">projects built</div></div>
         <div class="stat" data-reveal><div class="n"><span data-count="2">0</span></div><div class="l">industry internships</div></div>
         <div class="stat" data-reveal><div class="n"><span data-count="0.951" data-dec="3">0</span></div><div class="l">mAP50 · A.I.R vision model</div></div>
         <div class="stat" data-reveal><div class="n"><span data-count="365">0</span></div><div class="l">automated tests · KAISER</div></div>
@@ -427,7 +439,7 @@ footer{border-top:1px solid var(--line);padding:26px var(--pad);display:flex;jus
       <div class="skill-cats">
         <div class="cat" style="--c:var(--accent)" data-reveal>
           <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></span>Embedded &amp; Hardware<small>core</small></h3>
-          <div class="chips"><span class="chip">Embedded C</span><span class="chip">ARM7 · LPC2148</span><span class="chip">Arduino UNO / UNO Q</span><span class="chip">ESP32 · ESP32-CAM</span><span class="chip">Keil uVision</span><span class="chip">UART · I2C · SPI · ADC</span><span class="chip">Timers · Interrupts · RTC · WDT</span><span class="chip">Sensors &amp; motor drivers</span><span class="chip">PCB &amp; circuit design</span></div>
+          <div class="chips"><span class="chip">Embedded C</span><span class="chip">ARM7 · LPC2148</span><span class="chip">Arduino UNO / UNO Q</span><span class="chip">ESP32 · ESP32-CAM</span><span class="chip">Keil uVision</span><span class="chip">UART · I2C · SPI · ADC</span><span class="chip">Timers · Interrupts · RTC</span><span class="chip">Sensors &amp; motor drivers</span><span class="chip">PCB &amp; circuit design</span></div>
         </div>
         <div class="cat" style="--c:var(--accent2)" data-reveal>
           <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M6 7l3.5 3M18 7l-3.5 3M6 17l3.5-3M18 17l-3.5-3"/></svg></span>AI &amp; Machine Learning<small>edge-first</small></h3>
