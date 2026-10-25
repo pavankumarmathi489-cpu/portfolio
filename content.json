@@ -44,7 +44,7 @@
     ],
     "paragraphs": [
       "I'm **Pavan Kumar Mathi**, a final-year B.Tech Electronics & Communication Engineering student at **MVGR College of Engineering**, Vizianagaram, graduating in 2027.",
-      "I like owning the whole stack. I wire the sensors, write the firmware in Embedded C, train the vision model, and run a local LLM on top, with no cloud needed. Right now I'm building **A.I.R**, an offline companion rover on the Arduino UNO Q, and **KAISER**, a personal AI agent with 41 tools and 365 automated tests.",
+      "I like owning the whole stack. I wire the sensors, write the firmware in Embedded C, train the vision model, and run a local LLM on top, with no cloud needed. Right now I'm building **A.I.R**, an offline companion rover on the Arduino UNO Q, and **KAISER**, a personal AI agent that installs like a normal Windows app, with 41 tools and 492 automated tests.",
       "On the side I ship real web apps for real businesses, like the live e-commerce site for a local fancy store."
     ],
     "stats": [
@@ -54,9 +54,9 @@
         "label": "projects built"
       },
       {
-        "value": "2",
+        "value": "4",
         "suffix": "",
-        "label": "industry internships"
+        "label": "internships"
       },
       {
         "value": "0.951",
@@ -64,7 +64,7 @@
         "label": "mAP50 · A.I.R vision model"
       },
       {
-        "value": "365",
+        "value": "492",
         "suffix": "",
         "label": "automated tests · KAISER"
       }
@@ -132,7 +132,10 @@
       "Rust",
       "JavaScript",
       "Playwright",
-      "Interrupts"
+      "Interrupts",
+      "PWA",
+      "GitHub Actions",
+      "Inno Setup"
     ],
     "categories": [
       {
@@ -184,6 +187,8 @@
           "REST APIs",
           "Razorpay payments",
           "Streamlit",
+          "PWA · Android app",
+          "Windows installers",
           "Rust (basics)"
         ]
       },
@@ -194,6 +199,7 @@
         "icon": "wrench",
         "items": [
           "Git & GitHub",
+          "GitHub Actions CI",
           "Vercel",
           "Linux (Debian)",
           "Google Colab",
@@ -257,26 +263,26 @@
       {
         "kind": "AI agent · Python · Offline",
         "title": "KAISER — Personal AI Agent",
-        "badge": "v12 · daily driver",
-        "badgeColor": "lime",
-        "intro": "A JARVIS-style assistant that runs fully on my laptop. Say \"Hey Kaiser\" and it plans a task, asks before anything risky, runs it with real tools, checks the result and reports back.",
+        "badge": "v12 · ongoing",
+        "badgeColor": "amber",
+        "intro": "A JARVIS-style assistant that runs fully on my laptop and now installs like a normal Windows app. Say \"Hey Kaiser\" and it plans a task, asks before anything risky, runs it with real tools, checks the result and reports back.",
         "bullets": [
-          "41 tools: writes, tests and fixes code; packages a Windows .exe; researches the web with citations; answers questions from PDFs.",
-          "Security first: Windows AppContainer sandbox, guarded browser (SSRF-safe), tamper-evident HMAC audit log, signed phone commands with a PIN.",
-          "Grew out of my earlier ZORO assistant and LoRA fine-tuning experiments on Qwen."
+          "**Missions:** give it a goal, approve its plan, and it works in the background step by step, then reports a debrief. It also offers help on its own (exam countdowns, focus breaks, low battery).",
+          "Ships as a one-click Windows installer with a first-run setup: owner profile, voice enrolment so it trusts your voice, consent and terms, and encrypted API keys.",
+          "Security first: Windows AppContainer sandbox, SSRF-safe browser, tamper-evident HMAC audit log, signed phone commands with a PIN. 492 automated tests run on every push (GitHub Actions)."
         ],
         "metrics": [
           {
             "value": "41",
-            "label": "tools"
+            "label": "agent tools"
           },
           {
-            "value": "365",
+            "value": "492",
             "label": "tests passing"
           },
           {
             "value": "0",
-            "label": "cloud calls"
+            "label": "cloud needed"
           }
         ],
         "tags": [
@@ -284,8 +290,9 @@
           "Ollama",
           "RAG",
           "Whisper",
-          "Playwright",
-          "Three.js UI"
+          "Three.js HUD",
+          "Inno Setup",
+          "GitHub Actions"
         ],
         "links": [],
         "art": "agent",
@@ -331,22 +338,23 @@
       },
       {
         "kind": "Full-stack web · E-commerce",
-        "title": "Ladies Fancy Store — Online Shop",
-        "badge": "Live in production",
+        "title": "MANJULA Ladies Fancy Store — Online Shop",
+        "badge": "Live · web + Android app",
         "badgeColor": "lime",
-        "intro": "A real e-commerce site for a local ladies fancy store, built and deployed for the owner. It runs as a catalogue today, and full ordering can be switched on from the admin panel when the shop is ready.",
+        "intro": "A real e-commerce site for MANJULA Ladies Fancy Store, a local shop, built and deployed for its owner. It runs as a catalogue with WhatsApp enquiries today; full ordering switches on from the admin panel when the shop is ready to deliver.",
         "bullets": [
-          "Flask + SQLAlchemy on Neon Postgres, deployed on Vercel with auto-deploy from GitHub.",
-          "Cart, checkout, Razorpay + cash on delivery, and pickup / local / courier delivery are all built in.",
-          "Admin panel for products, categories, orders and shop settings; red-gold theme with animations."
+          "Installs on a phone like an app (PWA with offline support and its own icon), and I packaged it as an Android app (APK) too.",
+          "Flask + SQLAlchemy on Neon Postgres, deployed on Vercel with auto-deploy from GitHub; all prices and stock checked on the server.",
+          "Cart, Razorpay + cash on delivery, pickup / local / courier delivery, and an admin panel for products, stock, orders and shop settings."
         ],
         "metrics": [],
         "tags": [
           "Flask",
           "PostgreSQL",
           "Razorpay",
-          "Vercel",
-          "Jinja"
+          "PWA",
+          "Android",
+          "Vercel"
         ],
         "links": [
           {
@@ -414,14 +422,14 @@
           "ai",
           "web"
         ],
-        "inProgress": false,
-        "status": "v12",
-        "description": "Offline JARVIS-style agent with 41 tools: plans, asks, executes and verifies tasks; coding loop, web research, PDF Q&A, phone control; sandboxed; 365 tests.",
+        "inProgress": true,
+        "status": "Ongoing · v12",
+        "description": "Offline JARVIS-style agent, now an installable Windows app: missions (plan → approve → run in background), proactive help, 41 tools, web research, PDF Q&A, phone companion; sandboxed; 492 tests on CI.",
         "tags": [
           "Python",
           "Ollama",
           "RAG",
-          "Whisper"
+          "Inno Setup"
         ],
         "icon": "brain",
         "live": "",
@@ -445,18 +453,18 @@
         "source": "https://github.com/pavankumarmathi489-cpu/disaster-response-system"
       },
       {
-        "title": "Ladies Fancy Store — E-commerce",
+        "title": "MANJULA Ladies Fancy Store — E-commerce",
         "filters": [
           "web"
         ],
         "inProgress": false,
-        "status": "Live",
-        "description": "Online shop for a local store: catalogue, cart, Razorpay + COD checkout, delivery options and an admin panel. Flask, Neon Postgres, Vercel.",
+        "status": "Live · web + Android",
+        "description": "Online shop for a local fancy store: catalogue with WhatsApp enquiries, wishlist, Razorpay + COD checkout, delivery options and admin panel. Installable phone app (PWA) and an Android APK.",
         "tags": [
           "Flask",
           "PostgreSQL",
-          "Razorpay",
-          "Vercel"
+          "PWA",
+          "Android"
         ],
         "icon": "shop",
         "live": "https://ladies-fancy-store.vercel.app",
@@ -645,6 +653,12 @@
         "kind": "Final-year project",
         "title": "A.I.R presented at Review Phase-I",
         "text": "Presented the rover's design, AI pipeline, real model results and costing to the department. Batch-11, ECE-B, guided by Dr. B. Lavanya."
+      },
+      {
+        "when": "Oct 2026",
+        "kind": "Internships",
+        "title": "Embedded System Design & Internet of Things · Pantech Prolabs India",
+        "text": "Two 30-day internships: embedded system design, and Internet of Things. Certificates issued 24 Oct 2026."
       },
       {
         "when": "Jun – Jul 2026",
