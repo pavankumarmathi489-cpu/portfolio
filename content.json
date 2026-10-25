@@ -44,7 +44,7 @@
     ],
     "paragraphs": [
       "I'm **Pavan Kumar Mathi**, a final-year B.Tech Electronics & Communication Engineering student at **MVGR College of Engineering**, Vizianagaram, graduating in 2027.",
-      "I like owning the whole stack. I wire the sensors, write the firmware in Embedded C, train the vision model, and run a local LLM on top, with no cloud needed. Right now I'm building **A.I.R**, an offline companion rover on the Arduino UNO Q, and **KAISER**, a personal AI agent that installs like a normal Windows app, with 41 tools and 492 automated tests.",
+      "I like owning the whole stack. I wire the sensors, write the firmware in Embedded C, train the vision model, and run a local LLM on top, with no cloud needed. I built **A.I.R**, an offline companion rover on the Arduino UNO Q, and **KAISER**, a personal AI agent that installs like a normal Windows app, with 41 tools and 492 automated tests.",
       "On the side I ship real web apps for real businesses, like the live e-commerce site for a local fancy store."
     ],
     "stats": [
@@ -221,8 +221,8 @@
       {
         "kind": "Robotics · Edge AI · Embedded",
         "title": "A.I.R — Artificial Intelligence Rover",
-        "badge": "Final-year project · in progress",
-        "badgeColor": "amber",
+        "badge": "Final-year project · Complete",
+        "badgeColor": "lime",
         "intro": "An offline companion rover that sees, listens, talks and moves on its own. It runs on the Arduino UNO Q (Debian Linux plus an on-board MCU), so nothing goes to the cloud.",
         "bullets": [
           "Trained a YOLOv8n object detector on 592 images; the AI \"brain\" picks a behaviour mode and the MCU drives the motors.",
@@ -263,8 +263,8 @@
       {
         "kind": "AI agent · Python · Offline",
         "title": "KAISER — Personal AI Agent",
-        "badge": "v12 · ongoing",
-        "badgeColor": "amber",
+        "badge": "v12 · Complete",
+        "badgeColor": "lime",
         "intro": "A JARVIS-style assistant that runs fully on my laptop and now installs like a normal Windows app. Say \"Hey Kaiser\" and it plans a task, asks before anything risky, runs it with real tools, checks the result and reports back.",
         "bullets": [
           "**Missions:** give it a goal, approve its plan, and it works in the background step by step, then reports a debrief. It also offers help on its own (exam countdowns, focus breaks, low battery).",
@@ -369,13 +369,12 @@
       {
         "kind": "Robotics · IoT · Computer vision",
         "title": "ESP32-CAM Surveillance Robot",
-        "badge": "Complete · upgrading",
+        "badge": "Complete",
         "badgeColor": "lime",
         "intro": "A Wi-Fi robot car that streams live video to a browser dashboard and drives from a phone or laptop. It's the hardware ancestor of A.I.R.",
         "bullets": [
           "MJPEG live streaming from the ESP32-CAM with a web dashboard for movement and speed control.",
-          "Variable motor-speed (PWM) control and precise turning through the motor driver.",
-          "Next: on-board human detection and alerts with snapshot capture."
+          "Variable motor-speed (PWM) control and precise turning through the motor driver."
         ],
         "metrics": [],
         "tags": [
@@ -403,8 +402,8 @@
           "iot",
           "emb"
         ],
-        "inProgress": true,
-        "status": "Final-year project",
+        "inProgress": false,
+        "status": "Final-year project · Complete",
         "description": "Offline companion rover on the Arduino UNO Q: YOLOv8n vision (mAP50 0.951), local LLM chat, speech in and out, MCU motor firmware and a 2D simulator for testing the AI brain.",
         "tags": [
           "UNO Q",
@@ -422,8 +421,8 @@
           "ai",
           "web"
         ],
-        "inProgress": true,
-        "status": "Ongoing · v12",
+        "inProgress": false,
+        "status": "Complete · v12",
         "description": "Offline JARVIS-style agent, now an installable Windows app: missions (plan → approve → run in background), proactive help, 41 tools, web research, PDF Q&A, phone companion; sandboxed; 492 tests on CI.",
         "tags": [
           "Python",
@@ -512,7 +511,7 @@
         ],
         "inProgress": false,
         "status": "Complete",
-        "description": "Wi-Fi robot car with MJPEG live video, browser dashboard control and PWM motor-speed control. Adding on-board human detection and alerts next.",
+        "description": "Wi-Fi robot car with MJPEG live video, browser dashboard control and PWM motor-speed control.",
         "tags": [
           "ESP32-CAM",
           "Wi-Fi",
