@@ -23,33 +23,119 @@ async function loadContent() {
 const content = await loadContent();
 render(content);
 
-/* ===================== loader ===================== */
-const bootLines = [
-  'initialising <b>PKM.SYS</b> …',
-  'flashing firmware ........... <b>ok</b>',
-  'mounting vision model ....... <b>ok</b>',
-  'warming up local LLM ........ <b>ok</b>',
-  'calibrating particles ....... <b>ok</b>',
-  'welcome.'
-];
+/* ===================== loader: dots fly in and form the portrait ===================== */
+const loadImg = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
+
+// samples the background-removed photo into coloured dots (real colours, no tint)
+function portraitDots(img, W, H) {
+  const boxH = Math.min(H * (isMobile() ? .66 : .84), W * 1.25 * (isMobile() ? 1 : .62));
+  const boxW = boxH * img.width / img.height;
+  const left = (W - boxW) / 2, top = H - boxH - H * (isMobile() ? .15 : .03);
+  const want = lowPower ? 2400 : 5200;
+  const step = Math.max(3, Math.sqrt(boxW * boxH * .5 / want));
+  const cols = Math.floor(boxW / step), rows = Math.floor(boxH / step);
+  const c = document.createElement('canvas'); c.width = cols; c.height = rows;
+  const x = c.getContext('2d', {willReadFrequently: true}); x.drawImage(img, 0, 0, cols, rows);
+  const d = x.getImageData(0, 0, cols, rows).data, dots = [];
+  const cx = W / 2, cy = H / 2, far = Math.hypot(W, H) * .65;
+  for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+    const k = (j * cols + i) * 4, a = d[k + 3];
+    if (a < 60) continue;
+    const r = d[k], g = d[k + 1], b = d[k + 2], lum = (r * .3 + g * .59 + b * .11) / 255;
+    const tx = left + i * step + step / 2, ty = top + j * step + step / 2;
+    const ang = Math.random() * Math.PI * 2, rad = far * (.7 + Math.random() * .8);
+    dots.push({tx, ty, sx: cx + Math.cos(ang) * rad, sy: cy + Math.sin(ang) * rad,
+      r: step * (.3 + .2 * lum) * (a / 255 * .4 + .6), col: `rgb(${r},${g},${b})`,
+      delay: .1 + Math.random() * .75 + (1 - ty / H) * .3, swirl: (Math.random() - .5) * 220,
+      ph: Math.random() * 6.28, x: 0, y: 0, vx: 0, vy: 0});
+  }
+  return dots;
+}
+
 function runLoader() {
-  return new Promise(res => {
+  return new Promise(async res => {
+    const loader = $('#loader');
     const finish = () => { document.body.classList.remove('loading'); res(); };
-    if (reduce) { $('#loader').remove(); return finish(); }
-    const boot = $('#boot'), pct = $('#pct'), bar = $('#lbar');
-    const o = {v: 0};
-    let shown = 0;
-    gsap.to(o, {v: 100, duration: 2.1, ease: 'power2.inOut', onUpdate() {
-      const v = Math.round(o.v);
-      pct.textContent = v; bar.style.width = v + '%';
-      const want = Math.min(bootLines.length, Math.floor(v / 100 * bootLines.length) + 1);
-      while (shown < want) boot.insertAdjacentHTML('beforeend', `<div>&gt; ${bootLines[shown++]}</div>`);
-    }, onComplete() {
-      gsap.timeline({onComplete: () => $('#loader').remove()})
-        .to('#loader .row, #loader .boot', {y: -40, opacity: 0, duration: .5, ease: 'power3.in'})
-        .to('#loader', {clipPath: 'inset(0 0 100% 0)', duration: .9, ease: 'expo.inOut'}, '-=.1')
-        .add(finish, '-=.55');
-    }});
+    if (reduce) { loader.remove(); return finish(); }
+    const first = content.profile.firstLine.split(' ')[0].toUpperCase();
+    $('#introName').innerHTML = [...first].map(ch => `<span class="ic">${ch}</span>`).join('');
+    $('#introRole').innerHTML = `${content.profile.firstLine} ${content.profile.secondLine.replace(/\.$/, '')} · <b>Embedded</b> · <b>Edge AI</b> · <b>Software</b>`;
+    gsap.set('#introName .ic, #introRole', {opacity: 0});
+
+    const cv = $('#introDots'), ctx = cv.getContext('2d');
+    const dpr = lowPower ? 1 : Math.min(devicePixelRatio || 1, 2);
+    const W = innerWidth || document.documentElement.clientWidth || 1280, H = innerHeight || document.documentElement.clientHeight || 720;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.scale(dpr, dpr);
+    let dots = [];
+    try {
+      const img = await Promise.race([loadImg('assets/pavan.webp'), new Promise((_, no) => setTimeout(no, 4000))]);
+      dots = portraitDots(img, W, H);
+    } catch (e) {}
+    await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1200))]);
+
+    const FORM = 1.5;                          // seconds each dot takes to arrive
+    const mouse = {x: -9999, y: -9999};
+    const onMove = e => { mouse.x = e.clientX; mouse.y = e.clientY; };
+    if (canHover) addEventListener('pointermove', onMove);
+    let t0 = performance.now(), exitAt = null, raf, done = false;
+    const ease = t => t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+
+    function frame(now) {
+      const t = (now - t0) / 1000;
+      ctx.clearRect(0, 0, W, H);
+      const ex = exitAt === null ? -1 : (now - exitAt) / 1000;
+      if (ex > 0) ctx.globalAlpha = Math.max(0, 1 - ex / .9);
+      for (const p of dots) {
+        if (ex > 0) {                           // burst outward
+          p.x += p.vx; p.y += p.vy; p.vx *= 1.04; p.vy *= 1.04;
+        } else {
+          const k = Math.min(1, Math.max(0, (t - p.delay) / FORM)), e = ease(k);
+          const dx = p.tx - p.sx, dy = p.ty - p.sy, L = Math.hypot(dx, dy) || 1;
+          const bend = Math.sin(Math.PI * e) * p.swirl;
+          let x = p.sx + dx * e - dy / L * bend, y = p.sy + dy * e + dx / L * bend;
+          if (k >= 1) {                         // formed: breathe, and part around the mouse
+            x += Math.sin(t * 1.6 + p.ph) * .5; y += Math.cos(t * 1.3 + p.ph) * .5;
+            const mx = x - mouse.x, my = y - mouse.y, md = mx * mx + my * my;
+            if (md < 6400) { const f = (1 - Math.sqrt(md) / 80) * 18; const m = Math.sqrt(md) || 1; x += mx / m * f; y += my / m * f; }
+          }
+          p.x = x; p.y = y;
+          if (k <= 0) continue;
+        }
+        ctx.fillStyle = p.col;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (ex < 1.1) raf = requestAnimationFrame(frame);
+    }
+    raf = requestAnimationFrame(frame);
+
+    const tl = gsap.timeline()
+      .to('#introName .ic', {opacity: 1, duration: .01, stagger: .07}, 1.0)
+      .from('#introName .ic', {x: () => gsap.utils.random(-260, 260), y: () => gsap.utils.random(-240, 160), z: () => gsap.utils.random(-400, 300),
+        rotateX: () => gsap.utils.random(-160, 160), rotateY: () => gsap.utils.random(-120, 120), rotateZ: () => gsap.utils.random(-90, 90),
+        duration: 1.3, ease: 'expo.out', stagger: .07}, 1.0)
+      .to('#introRole', {opacity: 1, duration: .6}, 2.1)
+      .from('#introRole', {y: 14, duration: .6, ease: 'power3.out'}, 2.1)
+      .add(exit, 3.9);
+
+    function exit() {
+      if (done) return; done = true; tl.kill();
+      exitAt = performance.now();
+      const cx = W / 2, cy = H / 2;
+      for (const p of dots) {
+        if (!p.x && !p.y) { p.x = p.sx; p.y = p.sy; }
+        const dx = p.x - cx, dy = p.y - cy, m = Math.hypot(dx, dy) || 1, sp = 2 + Math.random() * 6;
+        p.vx = dx / m * sp + (Math.random() - .5) * 2; p.vy = dy / m * sp + (Math.random() - .5) * 2;
+      }
+      removeEventListener('pointermove', onMove);
+      gsap.timeline({onComplete: () => { cancelAnimationFrame(raf); loader.remove(); }})
+        .to('#loader .intro-text, #loader .tag', {y: -50, opacity: 0, duration: .55, ease: 'power3.in'}, 0)
+        .to(loader, {backgroundColor: 'rgba(5,7,13,0)', duration: .9, ease: 'power2.inOut'}, .1)
+        .add(finish, .35);
+    }
+    setTimeout(exit, 8000);                    // never trap the visitor if timers stall
+    loader.addEventListener('click', exit);
+    addEventListener('keydown', exit, {once: true});
   });
 }
 

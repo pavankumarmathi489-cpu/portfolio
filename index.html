@@ -49,13 +49,17 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 main,header,footer{position:relative;z-index:2}
 
 /* ---------- loader ---------- */
-#loader{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;justify-content:flex-end;padding:var(--pad)}
-#loader .boot{font-family:var(--mono);font-size:13px;color:var(--muted);line-height:1.9;min-height:9em}
-#loader .boot b{color:var(--accent);font-weight:500}
-#loader .row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;gap:16px}
-#loader .pct{font-family:var(--display);font-weight:700;font-size:clamp(72px,16vw,200px);line-height:.85;letter-spacing:-.04em}
-#loader .bar{position:absolute;left:0;bottom:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2))}
-#loader .tag{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
+#loader{position:fixed;inset:0;z-index:100;background:var(--bg);overflow:hidden;cursor:pointer}
+#loader canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#loader .intro-text{position:absolute;left:0;right:0;bottom:7vh;text-align:center;pointer-events:none;perspective:900px}
+#loader .intro-name{font-family:var(--display);font-weight:800;font-size:clamp(76px,17vw,250px);line-height:.82;letter-spacing:-.035em;white-space:nowrap}
+#loader .intro-name .ic{display:inline-block;transform-origin:50% 60%;background:linear-gradient(180deg,#fff 0%,#e8ebf0 45%,#8b93a1 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 10px 30px rgba(0,0,0,.65))}
+#loader .intro-role{margin-top:14px;font-family:var(--mono);font-size:clamp(11px,1.2vw,14px);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+#loader .intro-role b{color:var(--accent);font-weight:500}
+#loader .tag{position:absolute;right:var(--pad);bottom:18px;font-family:var(--mono);font-size:11px;color:var(--muted);opacity:.7}
+#loader .tag.l{right:auto;left:var(--pad)}
+@media (max-width:600px){#loader .intro-role{letter-spacing:.06em;font-size:10px;padding:0 12px}}
 
 /* ---------- cursor ---------- */
 .cursor,.cursor-ring{position:fixed;left:0;top:0;pointer-events:none;z-index:90;border-radius:50%;transform:translate(-50%,-50%)}
@@ -336,14 +340,14 @@ body{font-size:16.5px}
 .h2 em{background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--accent);font-style:italic;font-weight:600}
 .hero h1{font-weight:700;letter-spacing:-.025em}
 .hero h1 .w2{-webkit-text-stroke-width:1.2px}
-.contact .big,.stat .n,#loader .pct{letter-spacing:-.025em}
+.contact .big,.stat .n{letter-spacing:-.025em}
 .fcard h3,.pcard h3,.ti h3,.rcard h3,.cat h3{letter-spacing:-.01em}
 
 /* calmer chrome */
 .grid-bg{display:none}
 .logo .dot{border-radius:2px;width:8px;height:8px;box-shadow:none;animation:none}
 .hero-status i{box-shadow:none}
-.progress-top,#loader .bar,.hprogress i,.tl .rail i{background:var(--accent)}
+.progress-top,.hprogress i,.tl .rail i{background:var(--accent)}
 
 /* skill boxes: no side stripe, a hairline highlight instead */
 .cat::before{display:none}
@@ -365,12 +369,13 @@ body{font-size:16.5px}
 <body class="loading">
 
 <div id="loader" aria-hidden="true">
-  <div class="boot" id="boot"></div>
-  <div class="row">
-    <div class="pct"><span id="pct">0</span>%</div>
-    <div class="tag">PKM.SYS<br>v2027 · Vizianagaram, IN</div>
+  <canvas id="introDots"></canvas>
+  <div class="intro-text">
+    <div class="intro-name" id="introName"></div>
+    <div class="intro-role" id="introRole"></div>
   </div>
-  <div class="bar" id="lbar"></div>
+  <div class="tag l">PKM · v2027</div>
+  <div class="tag">tap to skip</div>
 </div>
 
 <canvas id="gl"></canvas>
@@ -518,6 +523,6 @@ body{font-size:16.5px}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
-<script type="module" src="main.js?v=5"></script>
+<script type="module" src="main.js?v=6"></script>
 </body>
 </html>
